@@ -21,9 +21,13 @@
   },
 
   "background": {
-    "scripts": ["background.js"],
-    "persistent": false
+    "scripts": ["background.js"]
   },
 
-  "options_page": "options.html"
+  "options_page": "options.html",
+
+  // firefox stuff
+  "options_ui": {
+    "page": "options.html"
+  }
 }

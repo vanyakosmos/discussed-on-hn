@@ -2,6 +2,9 @@
 
 This browser extension will help you to find out.
 
+- [firefox](https://addons.mozilla.org/en-US/firefox/addon/was-this-page-on-hacker-news/)
+- chrome - load in dev mode (maybe some day it will be in store)
+
 
 ## Control
 
