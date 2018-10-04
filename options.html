@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Discussed on HN</title>
+    <style>
+        .main {
+            padding: 40px;
+            font-size: 1rem;
+            margin: 20px auto;
+            max-width: 520px;
+        }
+
+        .block {
+            margin-bottom: 20px;
+        }
+
+        .block > * {
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        #save {
+            width: 100%;
+            font-size: 0.9rem;
+            background: #ff6d00;
+            color: white;
+        }
+
+        #save:hover {
+            background: white;
+            color: #ff6d00;
+        }
+    </style>
+</head>
+<body>
+
+<div class="main">
+    <form>
+        <div class="block">
+            <label>
+                <input type="checkbox" name="list">
+                Open list of posts in more then one discussion was found.
+            </label>
+        </div>
+
+        <hr style="margin: 10px 5px"/>
+
+        <div class="block">
+            <label>
+                <input type="radio" name="load" value="click" checked>
+                Check if current page was on HN on extension icon click.
+            </label>
+
+            <label>
+                <input type="radio" name="load" value="always">
+                Check if current page was on HN on page load.
+            </label>
+        </div>
+
+        <button id="save">Save</button>
+    </form>
+</div>
+
+<script src="options.js"></script>
+</body>
+</html>
