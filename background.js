@@ -29,12 +29,20 @@ function setIcon(data, tab) {
         chrome.browserAction.setIcon({
             path: 'icons/icon-128.png',
             tabId: tab.id,
+        });
+        chrome.browserAction.setTitle({
+            title: 'Click to open HN thread.',
+            tabId: tab.id,
         })
     } else {
         chrome.browserAction.setIcon({
             path: 'icons/grey-128.png',
             tabId: tab.id,
-        })
+        });
+        chrome.browserAction.setTitle({
+            title: 'Not discussed on HN.',
+            tabId: tab.id,
+        });
     }
 }
 
@@ -136,12 +144,20 @@ async function setInitialIcons(url, tab) {
                 chrome.browserAction.setIcon({
                     path: 'icons/mid-128.png',
                     tabId: tab && tab.id,
-                })
+                });
+                chrome.browserAction.setTitle({
+                    title: 'Click to check.',
+                    tabId: tab.id,
+                });
             } else {
                 chrome.browserAction.setIcon({
                     path: 'icons/wait-128.png',
                     tabId: tab && tab.id,
-                })
+                });
+                chrome.browserAction.setTitle({
+                    title: 'wait...',
+                    tabId: tab.id,
+                });
             }
         }
     });
