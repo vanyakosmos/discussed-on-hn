@@ -25,8 +25,6 @@
   },
 
   "options_page": "options.html",
-
-  // firefox stuff
   "options_ui": {
     "page": "options.html"
   }
