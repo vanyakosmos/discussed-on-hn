@@ -11,7 +11,7 @@ This browser extension will help you to find out.
 ### Install:
 
 - [firefox](https://addons.mozilla.org/en-US/firefox/addon/was-this-page-on-hacker-news/)
-- chrome - load in dev mode (maybe some day it will be in store)
+- [chrome](https://chrome.google.com/webstore/detail/discussed-on-hn/llkfljcppegepagjbhnmpfnbilgoccmg)
 
 
 ## Control
