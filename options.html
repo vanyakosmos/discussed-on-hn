@@ -4,10 +4,8 @@
     <title>Discussed on HN</title>
     <style>
         .main {
-            padding: 40px;
+            padding: 20px;
             font-size: 1rem;
-            margin: 20px auto;
-            max-width: 520px;
         }
 
         .block {
@@ -23,12 +21,23 @@
             width: 100%;
             font-size: 0.9rem;
             background: #ff6d00;
-            color: white;
+            color: black;
         }
 
         #save:hover {
-            background: white;
-            color: #ff6d00;
+            background: rgba(255, 132, 0, 0.9);
+            color: white;
+        }
+
+        .main hr {
+            margin: 10px 5px;
+        }
+
+        #info {
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+            opacity: 0;
         }
     </style>
 </head>
@@ -37,27 +46,47 @@
 <div class="main">
     <form>
         <div class="block">
+            <span>If found more then one thread for current page then:</span>
             <label>
-                <input type="checkbox" name="list">
-                Open list of threads if was found more than one.
+                <input type="radio" name="openList" value="true">
+                open list of threads
+            </label>
+            <label>
+                <input type="radio" name="openList" value="false">
+                open most relevant post
             </label>
         </div>
 
-        <hr style="margin: 10px 5px"/>
+        <hr/>
 
         <div class="block">
-            <span>Check if current page was on HN on:</span>
+            <span>Check if current page was on HN:</span>
             <label>
-                <input type="radio" name="load" value="click" checked>
-                icon click
+                <input type="radio" name="checkOnClick" value="true">
+                on toolbar icon click
             </label>
             <label>
-                <input type="radio" name="load" value="always">
-                page load
+                <input type="radio" name="checkOnClick" value="false">
+                on page load
             </label>
         </div>
 
-        <button id="save">Save</button>
+        <hr/>
+
+        <div class="block">
+            <span>If current page wasn't found on HN then on icon click:</span>
+            <label>
+                <input type="radio" name="allowSubmit" value="false">
+                do nothing
+            </label>
+            <label>
+                <input type="radio" name="allowSubmit" value="true">
+                submit link to HN
+            </label>
+        </div>
+
+        <button id="save">save</button>
+        <div id="info">saved</div>
     </form>
 </div>
 
