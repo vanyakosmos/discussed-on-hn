@@ -8,6 +8,7 @@ async function getPosts(url, title) {
     /**
      * Get post id, number of results and generate urls.
      */
+    /// console.log('getting posts');
     url = encodeURIComponent(url);
     let res = await fetch(`http://hn.algolia.com/api/v1/search?query=${url}&tags=story`);
     let data = await res.json();
@@ -30,6 +31,7 @@ function setIcon(data, tab) {
      * Set icon after getting search result.
      */
     if (data.url) {
+        // console.log('got url: set normal icon');
         chrome.browserAction.setIcon({
             path: 'icons/icon-128.png',
             tabId: tab.id,
@@ -39,6 +41,7 @@ function setIcon(data, tab) {
             tabId: tab.id,
         })
     } else {
+        // console.log('no url: set grey icon');
         chrome.browserAction.setIcon({
             path: 'icons/grey-128.png',
             tabId: tab.id,
@@ -59,7 +62,7 @@ function checkUrl(url, tab) {
             getPosts(url, tab.title)
                 .then(data => {
                     data = data || {};
-                    console.log('res', data);
+                    // console.log('got result:', data);
                     chrome.storage.local.set({
                         [url]: JSON.stringify(data)
                     });
@@ -77,8 +80,8 @@ function checkUrl(url, tab) {
 function updateActiveTab() {
     /**
      * On tab change check setup icons and stuff.
+     * Set timeout to prevent intense loading on redirects.
      */
-    // set timeout to prevent intense loading on redirects
     clearTimeout(timer);
     timer = setTimeout(() => {
         chrome.tabs.query({ 'active': true, 'lastFocusedWindow': true }, function (tabs) {
@@ -102,6 +105,7 @@ async function openLink(data) {
     /**
      * Open new tab based on data and user options.
      */
+    // console.log('open some link');
     let options = await getOptions();
     if (!data.url && !options.allowSubmit) {
         return
@@ -125,6 +129,7 @@ async function clickIcon() {
     let options = await getOptions();
 
     if (options.checkOnClick && !checked) {
+        // console.log('checkOnClick and not checked yet');
         chrome.browserAction.setIcon({
             path: 'icons/wait-128.png',
             tabId: currentTab.id,
@@ -145,30 +150,37 @@ async function setInitialIcons(url, tab) {
      * Set mid/wait icons if there is no data about current page in storage.
      * Otherwise mark page as checked.
      */
+    // console.log('set initial icon');
     chrome.storage.local.get([url], async function (res) {
         if (!res[url]) {
+            // console.log('no data');
             let options = await getOptions();
             if (options.checkOnClick) {
+                // console.log('checkOnClick: set mid icon');
                 chrome.browserAction.setIcon({
                     path: 'icons/mid-128.png',
                     tabId: tab && tab.id,
                 });
                 chrome.browserAction.setTitle({
                     title: 'Click to check.',
-                    tabId: tab.id,
+                    tabId: tab && tab.id,
                 });
             } else {
+                // console.log('not checkOnClick: set wait icon');
                 chrome.browserAction.setIcon({
                     path: 'icons/wait-128.png',
                     tabId: tab && tab.id,
                 });
                 chrome.browserAction.setTitle({
                     title: 'wait...',
-                    tabId: tab.id,
+                    tabId: tab && tab.id,
                 });
             }
         } else {
+            // console.log('have data');
             checked = true;
+            let data = JSON.parse(res[url]);
+            setIcon(data, tab)
         }
     });
 }
@@ -184,6 +196,7 @@ async function getOptions() {
                 checkOnClick: true,
                 allowSubmit: true,
             };
+            // console.log('got options', options);
             resolve(options);
         });
     }))
@@ -195,6 +208,7 @@ function clearStorage() {
      */
     getOptions()
         .then(options => {
+            // console.log('clear storage');
             chrome.storage.local.clear();
             chrome.storage.local.set({ options: JSON.stringify(options) });
         })
