@@ -101,7 +101,7 @@ function updateActiveTab() {
     }, 200);
 }
 
-async function openLink(data) {
+async function openLink(data, currentTab) {
     /**
      * Open new tab based on data and user options.
      */
@@ -111,12 +111,12 @@ async function openLink(data) {
         return
     }
     if (!data.url && options.allowSubmit) {
-        chrome.tabs.create({ url: data.submitUrl });
+        chrome.tabs.create({ openerTabId: currentTab, url: data.submitUrl });
     }
     else if (data.hits > 1 && options.openList) {
-        chrome.tabs.create({ url: data.listUrl });
+        chrome.tabs.create({ openerTabId: currentTab, url: data.listUrl });
     } else {
-        chrome.tabs.create({ url: data.url });
+        chrome.tabs.create({ openerTabId: currentTab, url: data.url });
     }
 }
 
@@ -141,7 +141,7 @@ async function clickIcon() {
 
     chrome.storage.local.get([url], res => {
         let data = JSON.parse(res[url]);
-        openLink(data, options.allowSubmit);
+        openLink(data, currentTab.id);
     });
 }
 
