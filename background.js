@@ -8,7 +8,6 @@ async function getPosts(url, title) {
     /**
      * Get post id, number of results and generate urls.
      */
-    /// console.log('getting posts');
     url = encodeURIComponent(url);
     let res = await fetch(`http://hn.algolia.com/api/v1/search?query=${url}&tags=story`);
     let data = await res.json();
@@ -101,22 +100,24 @@ function updateActiveTab() {
     }, 200);
 }
 
-async function openLink(data, currentTab) {
+async function openLink(data) {
     /**
      * Open new tab based on data and user options.
      */
-    // console.log('open some link');
     let options = await getOptions();
     if (!data.url && !options.allowSubmit) {
         return
     }
-    if (!data.url && options.allowSubmit) {
-        chrome.tabs.create({ openerTabId: currentTab, url: data.submitUrl });
+    const commonParams = {
+        openerTabId: currentTab.id,
+        index: currentTab.index + 1,
     }
-    else if (data.hits > 1 && options.openList) {
-        chrome.tabs.create({ openerTabId: currentTab, url: data.listUrl });
+    if (!data.url && options.allowSubmit) {
+        chrome.tabs.create({ ...commonParams, url: data.submitUrl });
+    } else if (data.hits > 1 && options.openList) {
+        chrome.tabs.create({ ...commonParams, url: data.listUrl });
     } else {
-        chrome.tabs.create({ openerTabId: currentTab, url: data.url });
+        chrome.tabs.create({ ...commonParams, url: data.url });
     }
 }
 
@@ -141,7 +142,7 @@ async function clickIcon() {
 
     chrome.storage.local.get([url], res => {
         let data = JSON.parse(res[url]);
-        openLink(data, currentTab.id);
+        openLink(data);
     });
 }
 
